@@ -2,6 +2,39 @@ var numberOfItemsToAdd = 100;
 var Suites = [];
 
 Suites.push({
+    name: 'DmikeyLib',
+    url: 'todomvc/chemical/index.html',
+    version: '1.1.2',
+    prepare: function (runner, contentWindow, contentDocument) {
+        return runner.waitForElement('#new-todo').then(function (element) {
+            element.focus();
+            return element;
+        });
+    },
+    tests: [
+        new BenchmarkTestStep('Adding' + numberOfItemsToAdd + 'Items', function (newTodo, contentWindow, contentDocument) {
+            var appView = contentWindow.appView;
+            for (var i = 0; i < numberOfItemsToAdd; i++) {
+                newTodo = contentDocument.querySelector('#new-todo');
+                var keypressEvent = document.createEvent('Event');
+                keypressEvent.initEvent('keypress', true, true);
+                keypressEvent.keyCode = 13;
+                newTodo.value = 'Something to do ' + i;
+                newTodo.dispatchEvent(keypressEvent)
+            }
+        }),
+        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
+        }),
+        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
+        })
+    ]
+});
+
+Suites.push({
     name: 'Backbone',
     url: 'todomvc/backbone/index.html',
     version: '1.1.2',
@@ -23,15 +56,13 @@ Suites.push({
                 newTodo.dispatchEvent(keypressEvent)
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+       new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -68,17 +99,13 @@ Suites.push({
                 });
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (params, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.ember-checkbox');
-            for (var i = 0; i < checkboxes.length; i++) {
-                var view = params.views[checkboxes[i].id];
-                params.emberRun(function () { view.set('checked', true); });
-            }
+     new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
-        new BenchmarkTestStep('DeletingItems', function (params, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                params.emberRun(function () { deleteButtons[i].click(); });
+        new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -105,15 +132,13 @@ Suites.push({
                 newTodo.form.dispatchEvent(submitEvent);
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+     new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -139,15 +164,13 @@ Suites.push({
                 newTodo.dispatchEvent(keydownEvent);
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+     new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -173,15 +196,13 @@ Suites.push({
                 newTodo.dispatchEvent(keydownEvent);
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+     new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -210,15 +231,13 @@ Suites.push({
                 newTodo.dispatchEvent(keydownEvent);
             }
         }),
-        new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+     new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
@@ -248,14 +267,12 @@ Suites.push({
             }
         }),
         new BenchmarkTestStep('CompletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var checkboxes = contentDocument.querySelectorAll('.toggle');
-            for (var i = 0; i < checkboxes.length; i++)
-                checkboxes[i].click();
+            var checkbox = contentDocument.getElementById('toggle-all');
+            checkbox.click();
         }),
         new BenchmarkTestStep('DeletingAllItems', function (newTodo, contentWindow, contentDocument) {
-            var deleteButtons = contentDocument.querySelectorAll('.destroy');
-            for (var i = 0; i < deleteButtons.length; i++)
-                deleteButtons[i].click();
+            var deleteButton = contentDocument.getElementById('clear-completed');
+            deleteButton.click();
         })
     ]
 });
